@@ -1,25 +1,52 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useCalendarStore } from '@/store/calendarStore';
 
-const HOLE_COUNT = 13;
+const HOLE_COUNT = 12;
 
 export default function SpiralBinding() {
+  const { currentDate } = useCalendarStore();
+  const currentMonthIndex = currentDate.getMonth();
+
   return (
-    <div className="relative w-full py-3 flex items-center justify-center z-10">
-      {/* Wire line */}
-      <div className="absolute top-1/2 left-[6%] right-[6%] h-[1.5px] bg-gradient-to-r from-transparent via-[#b0b8c8]/40 to-transparent -translate-y-1/2 dark:via-[#4a5568]/40" />
+    <div className="relative w-full py-4 flex items-center justify-center z-20 pointer-events-none">
+      {/* Subtle modern spine line */}
+      <div className="absolute top-1/2 left-[4%] right-[4%] h-[2px] bg-[var(--border-color)] dark:bg-white/10 -translate-y-1/2 rounded-full" />
       
-      <div className="flex items-center justify-between px-[6%] w-full">
-        {Array.from({ length: HOLE_COUNT }).map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: i * 0.03, type: 'spring', stiffness: 300, damping: 15 }}
-            className="spiral-hole shrink-0"
-          />
-        ))}
+      <div className="flex items-center justify-between px-[5%] w-full">
+        {Array.from({ length: HOLE_COUNT }).map((_, i) => {
+          const isActive = i === currentMonthIndex;
+          
+          return (
+            <div key={i} className="relative flex flex-col items-center shrink-0 w-[14px]">
+              {/* Minimalist punch hole */}
+              <motion.div 
+                animate={{
+                  borderColor: isActive ? 'transparent' : 'var(--border-color)',
+                  backgroundColor: isActive ? 'rgba(0,0,0,0.1)' : 'var(--background)'
+                }}
+                className="w-[14px] h-[14px] rounded-full border-[1.5px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] dark:shadow-[inset_0_2px_5px_rgba(0,0,0,0.4)] z-10" 
+              />
+              
+              {/* Modern elegant wire loop */}
+              <motion.div 
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ 
+                  scale: 1, 
+                  opacity: 1,
+                  y: isActive ? 2 : -4,
+                  height: isActive ? 22 : 16,
+                  backgroundColor: isActive ? 'var(--accent)' : 'var(--text-muted)'
+                }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className={`absolute top-[-10px] w-[5px] rounded-full shadow-sm z-20 ${
+                  isActive ? 'shadow-[var(--accent-glow)]' : ''
+                }`}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

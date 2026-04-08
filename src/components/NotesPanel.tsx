@@ -88,12 +88,7 @@ export default function NotesPanel() {
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4, type: 'spring', stiffness: 80 }}
-      className="w-full"
-    >
+    <div className="w-full gsap-notes-panel">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -273,6 +268,6 @@ export default function NotesPanel() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }

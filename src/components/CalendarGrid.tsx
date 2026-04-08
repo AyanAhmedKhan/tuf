@@ -7,25 +7,7 @@ import type { DayInfo } from '@/store/calendarStore';
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.02,
-      delayChildren: 0.1,
-    },
-  },
-};
 
-const dayVariants = {
-  hidden: { opacity: 0, scale: 0.4, y: 12 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { type: 'spring', stiffness: 220, damping: 18 },
-  },
-};
 
 export default function CalendarGrid() {
   const {
@@ -46,7 +28,7 @@ export default function CalendarGrid() {
   const monthKey = format(currentDate, 'yyyy-MM');
 
   function getCellClass(day: DayInfo): string {
-    const classes = ['day-cell'];
+    const classes = ['day-cell', 'gsap-day-cell'];
 
     if (!day.isCurrentMonth) {
       classes.push('day-disabled');
@@ -122,16 +104,10 @@ export default function CalendarGrid() {
           transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
           className="grid grid-cols-7 gap-1.5"
         >
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            className="contents"
-          >
+          <div className="contents">
             {days.map((day, i) => (
               <motion.button
                 key={`${monthKey}-${i}`}
-                variants={dayVariants}
                 whileTap={day.isCurrentMonth ? { scale: 0.82 } : undefined}
                 whileHover={day.isCurrentMonth ? { scale: 1.14, zIndex: 5 } : undefined}
                 className={getCellClass(day)}
@@ -151,7 +127,7 @@ export default function CalendarGrid() {
                 )}
               </motion.button>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>

@@ -106,7 +106,7 @@ export default function CalendarHero() {
           x: useTransform(() => scrollCloudBase1.get() + cloud1X.get()), 
           y: cloud1Y
         }}
-        className="cloud-float absolute top-[12%] left-[3%] w-[200px] opacity-50 pointer-events-none drop-shadow-2xl"
+        className="cloud-float absolute top-[5%] md:top-[12%] -left-[15%] md:left-[3%] w-[150px] md:w-[200px] opacity-50 pointer-events-none drop-shadow-2xl gsap-hero-cloud"
       >
         <Image
           src="/cloud.png"
@@ -123,7 +123,7 @@ export default function CalendarHero() {
           x: useTransform(() => scrollCloudBase2.get() + cloud2X.get()),
           y: cloud2Y 
         }}
-        className="cloud-float-delayed absolute top-[25%] right-[6%] w-[160px] opacity-35 pointer-events-none drop-shadow-2xl"
+        className="cloud-float-delayed absolute top-[20%] md:top-[25%] -right-[15%] md:right-[6%] w-[120px] md:w-[160px] opacity-35 pointer-events-none drop-shadow-2xl gsap-hero-cloud"
       >
         <Image
           src="/cloud.png"
@@ -137,14 +137,11 @@ export default function CalendarHero() {
 
       {/* Month / Year overlay — editorial typography with slight text parallax */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, type: 'spring', stiffness: 60 }}
         style={{
           x: useTransform(smoothMouseX, [-1, 1], [-10, 10]),
           y: useTransform(smoothMouseY, [-1, 1], [-10, 10])
         }}
-        className="absolute bottom-0 left-0 right-0 p-6 md:p-10 pb-10 md:pb-14 pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 p-6 md:p-10 pb-10 md:pb-14 pointer-events-none gsap-hero-text"
       >
         <div className="relative z-10">
           <motion.p

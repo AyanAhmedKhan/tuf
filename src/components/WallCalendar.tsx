@@ -2,7 +2,11 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { useCalendarStore } from '@/store/calendarStore';
+
+gsap.registerPlugin(useGSAP);
 
 import CalendarHero from './CalendarHero';
 import SpiralBinding from './SpiralBinding';
@@ -62,6 +66,55 @@ export default function WallCalendar() {
     const t = setTimeout(() => setLoaded(true), 500);
     return () => clearTimeout(t);
   }, []);
+
+  // Master Entrance Sequence using GSAP
+  useGSAP(() => {
+    if (!loaded || !containerRef.current) return;
+
+    const tl = gsap.timeline();
+
+    // 1. Unmask Hero Background
+    tl.fromTo('.gsap-hero-bg', 
+      { clipPath: 'inset(0 0 100% 0)' },
+      { clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power3.inOut' }
+    );
+
+    // 2. Fade in Clouds
+    tl.fromTo('.gsap-hero-cloud',
+      { opacity: 0, y: 20 },
+      { opacity: (i, target) => target.classList.contains('cloud-float') ? 0.5 : 0.35, y: 0, duration: 1, stagger: 0.2, ease: 'power2.out' },
+      "-=0.6"
+    );
+
+    // 3. Hero Text
+    tl.fromTo('.gsap-hero-text',
+      { opacity: 0, y: 30, scale: 0.9 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'back.out(1.2)' },
+      "-=0.8"
+    );
+
+    // 4. Calendar Body container
+    tl.fromTo('.gsap-calendar-body', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+      "-=0.6"
+    );
+
+    // 5. Stagger Grid Cells
+    tl.fromTo('.gsap-day-cell',
+      { opacity: 0, y: 15, scale: 0.8 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.015, ease: 'back.out(1.5)' },
+      "-=0.5"
+    );
+
+    // 6. Notes Panel Slide In
+    tl.fromTo('.gsap-notes-panel',
+      { opacity: 0, x: 20 },
+      { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' },
+      "-=0.4"
+    );
+
+  }, { dependencies: [loaded], scope: containerRef });
 
   // Continuous parallax scroll effect on the entire card
   const { scrollYProgress } = useScroll({
@@ -145,12 +198,7 @@ export default function WallCalendar() {
                 <SpiralBinding />
 
                 {/* Calendar body */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, type: 'spring', stiffness: 80 }}
-                  className="px-5 md:px-10 pb-8 md:pb-12"
-                >
+                <div className="px-5 md:px-10 pb-8 md:pb-12 gsap-calendar-body">
                   {/* Desktop: side-by-side with divider / Mobile: stacked */}
                   <div className="flex flex-col lg:flex-row gap-6 lg:gap-0">
                     {/* Calendar section */}
@@ -170,7 +218,7 @@ export default function WallCalendar() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Bottom accent line */}
                 <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" />
