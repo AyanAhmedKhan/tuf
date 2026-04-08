@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/hero image.png" alt="Interactive Wall Calendar" width="800" style="border-radius: 12px; margin-bottom: 24px;">
+  <img src="public/hero image.png" alt="Interactive Wall Calendar" width="800" style="border-radius: 12px; margin-bottom: 24px;">
 
   # Interactive Wall Calendar
   
@@ -59,6 +59,6 @@ Node.js is required to run the development server.
 
 ## Submission Details
 - **Video Demonstration**: [Insert Video Link Here]
-- **Live Demo**: [Insert Vercel/Netlify Link Here]
+- **Live Demo**: [https://tuf-omega.vercel.app/](https://tuf-omega.vercel.app/)
 
 All feedback is welcome. Thank you for your time reviewing the code and component architecture.
