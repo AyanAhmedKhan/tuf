@@ -63,9 +63,18 @@ export default function WallCalendar() {
     return () => clearTimeout(t);
   }, []);
 
-  // Scroll-based card scale
-  const { scrollYProgress } = useScroll();
-  const cardScale = useTransform(scrollYProgress, [0, 0.15], [0.98, 1]);
+  // Continuous parallax scroll effect on the entire card
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start']
+  });
+  
+  // Dramatic full-size increasing parallax
+  const cardScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.6, 1, 1.25]);
+  // Aggressive vertical parallax sweep
+  const cardY = useTransform(scrollYProgress, [0, 1], [150, -150]);
+  // Cinematic 3D tilt tied to scroll direction
+  const cardRotateX = useTransform(scrollYProgress, [0, 1], [10, -10]);
 
   return (
     <>
@@ -82,6 +91,7 @@ export default function WallCalendar() {
           className="min-h-screen relative bg-[var(--background)] transition-colors duration-500"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
+          style={{ perspective: 1500 }}
         >
           {/* Ambient background gradients */}
           <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -123,7 +133,7 @@ export default function WallCalendar() {
 
           {/* Main calendar card */}
           <div className="relative z-10 flex justify-center px-4 md:px-6 py-8 md:py-14">
-            <motion.div style={{ scale: cardScale }}>
+            <motion.div style={{ scale: cardScale, y: cardY, rotateX: cardRotateX }}>
               <TiltCard
                 className="w-full max-w-[920px] rounded-[28px] overflow-hidden glass-strong relative"
                 intensity={3}
