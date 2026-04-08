@@ -2,26 +2,26 @@
 
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Twitter, Linkedin, Facebook, Link as LinkIcon, Share2 } from 'lucide-react';
+import { Linkedin, Github, Globe, Share2 } from 'lucide-react';
 
 const PLATFORMS = {
-  twitter: {
-    label: 'X / Twitter',
-    icon: (size: number) => <Twitter size={size} strokeWidth={2.5} />,
-    color: '#000000',
-    getUrl: (url: string, text: string) => `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
-  },
   linkedin: {
     label: 'LinkedIn',
     icon: (size: number) => <Linkedin size={size} strokeWidth={2.5} />,
     color: '#0A66C2',
-    getUrl: (url: string) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
+    getUrl: () => 'https://www.linkedin.com/in/ayan-ahmed-khan-95978620a/'
   },
-  copy: {
-    label: 'Copy Link',
-    icon: (size: number) => <LinkIcon size={size} strokeWidth={2.5} />,
-    color: '#64748B',
-    getUrl: () => ''
+  github: {
+    label: 'GitHub',
+    icon: (size: number) => <Github size={size} strokeWidth={2.5} />,
+    color: '#181717',
+    getUrl: () => 'https://github.com/AyanAhmedKhan'
+  },
+  portfolio: {
+    label: 'Portfolio',
+    icon: (size: number) => <Globe size={size} strokeWidth={2.5} />,
+    color: '#3B82F6',
+    getUrl: () => 'https://ayanahmedkhan.vercel.app/'
   }
 };
 
@@ -86,12 +86,8 @@ function NavItem({
   const shadow = `0 ${Math.round(depth * 12)}px ${shadowBlur}px rgba(0,0,0,${shadowOpacity})`;
 
   const handleClick = () => {
-    if (platformKey === 'copy') {
-      onCopy();
-    } else {
-      const url = platform.getUrl(shareUrl, shareText);
-      if (url) window.open(url, '_blank', 'noopener,noreferrer');
-    }
+    const url = platform.getUrl();
+    if (url) window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -139,7 +135,7 @@ function NavItem({
                 fontWeight: 600
               }}
             >
-              {platformKey === 'copy' && copied ? 'Copied!' : platform.label}
+              {platform.label}
             </motion.div>
             
             <motion.button
@@ -152,7 +148,7 @@ function NavItem({
                 width: itemSize,
                 height: itemSize,
                 borderRadius: '50%',
-                background: platformKey === 'copy' && copied ? '#22C55E' : color,
+                background: color,
                 border: 'none',
                 cursor: 'pointer',
                 display: 'flex',
@@ -190,21 +186,39 @@ export default function SocialSharing() {
     const rect = containerRef.current.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
+    
     rawMouseX.set(e.clientX - cx);
     rawMouseY.set(e.clientY - cy);
-  }, [rawMouseX, rawMouseY]);
 
-  const handleMouseLeave = useCallback(() => {
-    rawMouseX.set(0);
-    rawMouseY.set(0);
-    setIsOpen(false);
-    setHoveredKey(null);
-  }, [rawMouseX, rawMouseY]);
+    // Custom distance calculation to gracefully auto-close the menu
+    if (isOpen) {
+      const distance = Math.sqrt(Math.pow(e.clientX - cx, 2) + Math.pow(e.clientY - cy, 2));
+      if (distance > 160) {
+        setIsOpen(false);
+        setHoveredKey(null);
+        rawMouseX.set(0);
+        rawMouseY.set(0);
+      }
+    }
+  }, [rawMouseX, rawMouseY, isOpen]);
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [handleMouseMove]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (isOpen && containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+        setHoveredKey(null);
+        rawMouseX.set(0);
+        rawMouseY.set(0);
+      }
+    };
+    window.addEventListener('mousedown', handleClickOutside);
+    return () => window.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen, rawMouseX, rawMouseY]);
 
   const handleCopy = useCallback(async () => {
     try {
@@ -217,9 +231,9 @@ export default function SocialSharing() {
   }, []);
 
   const platforms: { key: PlatformKey; depth: number }[] = [
-    { key: 'twitter', depth: 1 },
+    { key: 'github', depth: 1 },
     { key: 'linkedin', depth: 0.75 },
-    { key: 'copy', depth: 0.8 }
+    { key: 'portfolio', depth: 0.8 }
   ];
 
   const fabSize = 56;
@@ -228,7 +242,6 @@ export default function SocialSharing() {
     <div
       ref={containerRef}
       className="fixed bottom-6 left-6 z-50 rounded-full"
-      onMouseLeave={handleMouseLeave}
       style={{ width: fabSize, height: fabSize }}
     >
       {platforms.map(({ key, depth }, i) => (
