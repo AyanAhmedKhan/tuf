@@ -1,150 +1,64 @@
-# 🗓️ Interactive Wall Calendar — Premium UI Component
+<div align="center">
+  <img src="/hero image.png" alt="Interactive Wall Calendar" width="800" style="border-radius: 12px; margin-bottom: 24px;">
 
-A stunning, production-quality interactive calendar component that replicates a physical wall calendar aesthetic with modern web technologies.
+  # Interactive Wall Calendar
+  
+  **Frontend Engineering Challenge Submission**
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-purple?logo=framer)
+  [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+  [![Framer](https://img.shields.io/badge/Framer_Motion-11-f51197?style=flat-square&logo=framer)](https://www.framer.com/motion/)
+  [![GSAP](https://img.shields.io/badge/GSAP-React-88CE02?style=flat-square&logo=greensock)](https://greensock.com/)
+</div>
 
----
+<br />
 
-## ✨ Features
+## Overview
+This repository contains my submission for the Frontend Engineering Challenge. The objective was to build a polished, highly interactive React calendar component inspired by the layout and tactile feel of a physical wall calendar. 
 
-### Core
-- **Wall Calendar Aesthetic** — Hero mountain image with wave divider, spiral binding decoration
-- **Date Range Selector** — Click to select start & end dates with visual range highlighting
-- **Integrated Notes System** — Per-day, per-range, and per-month notes with localStorage persistence
-- **Fully Responsive** — Desktop side-by-side layout gracefully collapses to mobile stacked view
+The application focuses on a strong visual hierarchy, seamless date-range selection, and an integrated contextual notes system while remaining strictly frontend-focused per the challenge requirements.
 
-### Animations & Effects
-- 🌊 **Parallax Scrolling** — Hero image moves at a different rate than content
-- ☁️ **Floating Clouds** — Animated cloud overlays with parallax offsets
-- 🎬 **Page Flip Animation** — 3D rotateY transition when changing months
-- 🎯 **Staggered Grid Reveal** — Calendar days appear one-by-one with spring physics
-- ✨ **3D Tilt Effect** — Card tilts toward cursor with specular highlight
-- 🎨 **Animated Gradient Border** — Subtle rotating conic gradient glow
+## Core Features
 
-### Premium UX
-- 🌙 **Dark/Light Theme** — Animated toggle with spring rotation, persisted in localStorage
-- 📅 **Indian Holiday Markers** — 20+ public holidays with collapsible legend
-- ⌨️ **Keyboard Navigation** — Arrow keys to change months
-- 📱 **Swipe Gestures** — Swipe left/right on mobile to navigate months
-- 💾 **Full Persistence** — All notes and theme preference stored in localStorage
-- ⚡ **Skeleton Loading** — Shimmer effect during initial load
-- 🔍 **Hover Preview Range** — See the range before committing the second click
+- **Physical Wall Calendar Layout**: The user interface is anchored by a dynamic hero section that mimics a hanging wall calendar, complete with a responsive spiral binding indicator and 3D parallax effects tracking cursor movement.
+- **Date Range Selection**: Full support for selecting start and end dates. The grid clearly highlights boundaries and intermediate days, with separate logic for weekend coloring and disabled out-of-month dates.
+- **Contextual Notes System**: An integrated notepad allowing users to save notes. The internal logic adapts contextually: it defaults to a general month memo but immediately shifts to date-specific or range-specific notes when calendar days are selected.
+- **Responsive Architecture**: The layout is engineered to support both expansive desktop environments (utilizing a side-by-side structure) and constrained mobile devices (elegantly collapsing into a stacked, touch-friendly grid).
+- **Dark Mode Support**: Full theme toggling built directly into the Tailwind configuration.
 
----
+## Technical Architecture & Constraints
 
-## 🚀 Getting Started
+As requested by the evaluation criteria, no backend or database was used. 
 
-### Prerequisites
-- Node.js 18+
-- npm
+- **State Management**: Handled via `Zustand`. Data persistence across reloads (including the notes functionality) is securely managed through client-side `localStorage`.
+- **Animation Strategy**: A hybrid approach was taken to maximize performance. `GSAP` orchestrates the master entrance timeline to avoid layout thrashing during the initial load, while `Framer Motion` handles the continuous, physics-based interactions (such as the 3D card tilt and hover states).
+- **Styling**: Implemented exclusively with Tailwind CSS v4, utilizing custom CSS variables to handle the glassmorphism and theme switching without heavy boilerplate.
 
-### Installation
+## Setup & Local Development
 
-```bash
-# Clone the repository
-git clone <repo-url>
-cd tuf
+Node.js is required to run the development server.
 
-# Install dependencies
-npm install
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/AyanAhmedKhan/tuf-calendar-challenge.git
+   cd tuf-calendar-challenge
+   ```
 
-# Start development server
-npm run dev
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+3. **Start the localized server**
+   ```bash
+   npm run dev
+   ```
 
-### Build for Production
+4. **View the application**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
-```bash
-npm run build
-npm start
-```
+## Submission Details
+- **Video Demonstration**: [Insert Video Link Here]
+- **Live Demo**: [Insert Vercel/Netlify Link Here]
 
----
-
-## 🏗️ Architecture
-
-```
-src/
-├── app/
-│   ├── layout.tsx          # Root layout with Inter font & SEO meta
-│   ├── page.tsx            # Main page rendering WallCalendar
-│   └── globals.css         # Design system: tokens, glassmorphism, animations
-├── components/
-│   ├── WallCalendar.tsx    # Main orchestrator component
-│   ├── CalendarHero.tsx    # Parallax hero image with floating clouds
-│   ├── CalendarGrid.tsx    # Month grid with staggered animation & selection
-│   ├── CalendarNav.tsx     # Previous/Next/Today navigation
-│   ├── NotesPanel.tsx      # Tabbed notes (Range / Day / Month)
-│   ├── ThemeToggle.tsx     # Animated dark/light mode switch
-│   ├── SpiralBinding.tsx   # Decorative spiral wire binding
-│   ├── TiltCard.tsx        # 3D mouse-tracking tilt wrapper
-│   ├── HolidayLegend.tsx   # Collapsible holiday list
-│   └── CalendarSkeleton.tsx # Loading shimmer skeleton
-└── store/
-    └── calendarStore.ts    # Zustand store: state, actions, holidays, persistence
-```
-
-### Design Decisions
-
-| Decision | Rationale |
-|----------|-----------|
-| **Zustand** over Context | Minimal boilerplate, no provider wrapping, built-in devtools |
-| **CSS custom properties** | Seamless dark mode via class toggle without Tailwind dark: prefix |
-| **Glassmorphism** | Premium aesthetic matching Apple-level design language |
-| **Spring physics** | Natural, organic feeling animations instead of linear easing |
-| **localStorage** | Requirements specify no backend; client-side persistence is durable |
-
----
-
-## 🎨 Design System
-
-- **Glassmorphism** — `backdrop-filter: blur(20px)` with layered transparency
-- **Animated gradients** — Conic gradient rotation on borders
-- **Soft shadows** — Multi-layer box-shadows for depth
-- **Typography** — Inter font with calculated weights and tracking
-- **Color palette** — HSL-tuned blues, indigos, and warm ambers
-
----
-
-## 📱 Responsive Breakpoints
-
-| Screen | Layout |
-|--------|--------|
-| **Desktop** (1024px+) | Side-by-side: Calendar + Notes in flexbox |
-| **Tablet** (768-1024px) | Full-width stacked with larger touch targets |
-| **Mobile** (<768px) | Vertically stacked, swipe navigation enabled |
-
----
-
-## ⌨️ Keyboard Shortcuts
-
-| Key | Action |
-|-----|--------|
-| `←` | Previous month |
-| `→` | Next month |
-| `Ctrl+Enter` | Save note |
-
----
-
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript 5
-- **Styling**: Tailwind CSS 4
-- **Animations**: Framer Motion 11
-- **State**: Zustand
-- **Icons**: Lucide React
-- **Dates**: date-fns
-- **Storage**: localStorage
-
----
-
-## 📄 License
-
-MIT
+All feedback is welcome. Thank you for your time reviewing the code and component architecture.
