@@ -79,8 +79,8 @@ Node.js (v18+) is required to run the development server.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/AyanAhmedKhan/tuf-calendar-challenge.git
-   cd tuf-calendar-challenge
+   git clone https://github.com/AyanAhmedKhan/tuf.git
+   cd tuf
    ```
 
 2. **Install dependencies**
@@ -97,5 +97,5 @@ Node.js (v18+) is required to run the development server.
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📌 Submission Details
-- **Video Demonstration**: [Insert Video Link Here]
+- **Video Demonstration**: [https://drive.google.com/file/d/1qBSXfUY2Bp_1c0DCVQFNQ78eTSdtcaxj/view?usp=sharing]
 - **Live Demo**: [https://tuf-omega.vercel.app/](https://tuf-omega.vercel.app/)
