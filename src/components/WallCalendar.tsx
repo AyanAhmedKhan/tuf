@@ -13,6 +13,7 @@ import ThemeToggle from './ThemeToggle';
 import HolidayLegend from './HolidayLegend';
 import TiltCard from './TiltCard';
 import CalendarSkeleton from './CalendarSkeleton';
+import SocialSharing from './SocialSharing';
 
 export default function WallCalendar() {
   const [loaded, setLoaded] = useState(false);
@@ -184,6 +185,9 @@ export default function WallCalendar() {
               ← → NAVIGATE MONTHS · SWIPE ON MOBILE · CLICK TO SELECT RANGE
             </p>
           </motion.footer>
+
+          {/* Social Sharing Parallax FAB */}
+          <SocialSharing />
         </motion.div>
       )}
     </>
