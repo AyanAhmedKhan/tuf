@@ -228,19 +228,29 @@ export default function WallCalendar() {
 
           {/* Footer */}
           <motion.footer
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="text-center py-8 relative z-10"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+            className="text-center py-8 pb-12 relative z-10 flex flex-col items-center gap-3"
           >
-            <p className="text-[11px] text-[var(--text-subtle)] font-medium">
-              Built with{' '}
-              <span className="text-[var(--accent)] font-semibold">Next.js</span>{' · '}
-              <span className="text-[var(--accent)] font-semibold">Framer Motion</span>{' · '}
-              <span className="text-[var(--accent)] font-semibold">Tailwind CSS</span>
+            <p className="text-[13px] md:text-[14px] text-[var(--text-muted)] font-medium tracking-wide">
+              Designed & Built by{' '}
+              <a 
+                href="https://ayanahmedkhan.vercel.app/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[var(--accent)] font-bold hover:underline underline-offset-4 decoration-[var(--accent)]/40 transition-all hover:decoration-[var(--accent)]"
+              >
+                Ayan Ahmed Khan
+              </a>
             </p>
-            <p className="mt-2 text-[9px] text-[var(--text-subtle)]/50 tracking-wide">
-              ← → NAVIGATE MONTHS · SWIPE ON MOBILE · CLICK TO SELECT RANGE
+            
+            <p className="text-[10px] md:text-[11px] text-[var(--text-subtle)] font-medium tracking-wide/50 flex items-center justify-center gap-1.5 flex-wrap px-4">
+              Powered by{' '}
+              <span className="font-semibold text-[var(--text-muted)]">Next.js</span>{' · '}
+              <span className="font-semibold text-[var(--text-muted)]">Tailwind v4</span>{' · '}
+              <span className="font-semibold text-[var(--text-muted)]">GSAP</span>{' · '}
+              <span className="font-semibold text-[var(--text-muted)]">Framer Motion</span>
             </p>
           </motion.footer>
 
